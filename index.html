@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>食刻 · 今日饮食健康评估</title>
+  <meta name="description" content="记录今天吃了什么，给出一份通俗易懂的健康评分和明天的改进建议。">
+  <link rel="stylesheet" href="assets/css/styles.css?v=3">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
+          <path d="M16 27c0-7 4.5-12 11-13-1 7.5-5 12-11 13Z" fill="currentColor" opacity=".9"/>
+          <path d="M16 27C9.5 26 5 21.5 4 14c6.5 1 11 6 12 13Z" fill="currentColor" opacity=".55"/>
+          <path d="M16 27V15" stroke="#0f5132" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <div class="brand-text">
+        <h1>食刻 <span>Shike</span></h1>
+        <p>今日饮食健康评估 · 明天怎么吃更稳</p>
+      </div>
+    </div>
+    <p class="topbar-note">评分参考《中国居民膳食指南（2022）》成人参考值</p>
+  </header>
+
+  <main class="layout">
+    <section class="panel builder" aria-labelledby="builder-title">
+      <div class="panel-head">
+        <h2 id="builder-title">今天吃了什么</h2>
+        <div class="panel-actions">
+          <button type="button" class="ghost" id="sampleBtn">载入示例</button>
+          <button type="button" class="ghost danger" id="clearBtn" hidden>清空</button>
+        </div>
+      </div>
+
+      <div class="mode-switch" role="radiogroup" aria-label="记录范围">
+        <label>
+          <input type="radio" name="mode" value="day" checked>
+          <span>全天记录</span>
+        </label>
+        <label>
+          <input type="radio" name="mode" value="meal">
+          <span>只记一餐</span>
+        </label>
+        <p class="mode-hint" id="modeHint">按全天参考量评估（约 2000 kcal）</p>
+      </div>
+
+      <div class="search-row">
+        <label class="search">
+          <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="m13.5 13.5 3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <input id="search" type="search" placeholder="搜索菜品，如：西兰花 / 米饭 / 奶茶" autocomplete="off">
+        </label>
+        <button type="button" class="ghost" id="manualBtn">＋ 自定义菜品</button>
+      </div>
+
+      <div class="tabs" id="tabs" role="tablist" aria-label="食物分类"></div>
+      <div class="catalog" id="catalog" aria-live="polite"></div>
+
+      <div class="selected-head">
+        <h3>已选 <span class="count" id="count">0 份</span></h3>
+        <p class="selected-tip">点菜品加入，份量可调</p>
+      </div>
+      <ul class="selected-list" id="selected"></ul>
+      <p class="empty-selected" id="emptySelected">还没有添加菜品，先从上面选一两样。</p>
+
+      <button type="button" class="primary" id="evalBtn" disabled>生成健康评估</button>
+      <p class="disclaimer">营养数据为常见做法的估算值，仅供参考，不构成医疗建议。</p>
+    </section>
+
+    <section class="panel report" id="report" aria-live="polite" aria-label="健康评估结果">
+      <div class="report-empty" id="reportEmpty">
+        <div class="empty-art" aria-hidden="true">
+          <svg viewBox="0 0 200 160" width="200" height="160">
+            <circle cx="100" cy="80" r="62" fill="#f3ecdd"/>
+            <circle cx="100" cy="80" r="44" fill="#fffdf7" stroke="#e2d8c4" stroke-width="2"/>
+            <path d="M100 44a36 36 0 0 1 31 18" stroke="#187a52" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <path d="M74 88c6-10 14-10 20 0s14 10 20 0" stroke="#d9a441" stroke-width="6" stroke-linecap="round" fill="none"/>
+            <ellipse cx="100" cy="112" rx="26" ry="5" fill="#e8dcc6"/>
+            <circle cx="54" cy="44" r="5" fill="#d9534f" opacity=".5"/>
+            <circle cx="158" cy="118" r="7" fill="#187a52" opacity=".25"/>
+          </svg>
+        </div>
+        <h2>先说说今天吃了什么</h2>
+        <p>添加菜品后点击「生成健康评估」，会从蔬果、蛋白质、主食结构、油盐糖、能量和多样性六个维度打分，并给出明天怎么吃的具体建议。</p>
+        <ul class="empty-points">
+          <li>六维评分，一眼看出短板</li>
+          <li>按缺口给出可执行的明日搭配</li>
+          <li>数据只留在你的浏览器里</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>食刻 Shike · 一个不联网也能用的饮食自评小工具</p>
+    <p>参考《中国居民膳食指南（2022）》；菜品营养值为常见做法的经验估算，个体差异较大。</p>
+  </footer>
+
+  <dialog id="manualDialog" class="dialog">
+    <form method="dialog" id="manualForm">
+      <h2>自定义菜品</h2>
+      <p class="dialog-sub">菜品库里没有的菜，可以按类别做粗略估算。</p>
+      <label class="field">
+        <span>菜品名称</span>
+        <input id="manualName" name="name" type="text" maxlength="20" placeholder="例如：妈妈做的冬瓜烧肉" required>
+      </label>
+      <label class="field">
+        <span>最接近的类别</span>
+        <select id="manualCat" name="cat">
+          <option value="staple">主食</option>
+          <option value="meat" selected>荤菜</option>
+          <option value="veg">素菜</option>
+          <option value="soup">汤羹</option>
+          <option value="fruit">水果</option>
+          <option value="dairy">奶豆</option>
+          <option value="snack">零食饮料</option>
+        </select>
+      </label>
+      <p class="dialog-note">会按该类的平均营养值估算，误差可能较大。</p>
+      <div class="dialog-actions">
+        <button type="button" class="ghost" id="manualCancel">取消</button>
+        <button type="submit" class="primary" value="ok">加入清单</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="assets/js/app.js?v=4"></script>
+</body>
+</html>
