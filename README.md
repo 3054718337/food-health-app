@@ -4,6 +4,8 @@
 
 纯前端实现，无框架、无构建、无后端，双击用任意静态服务器打开即可运行。
 
+**在线体验**：<https://3054718337.github.io/food-health-app/?demo=1>（自动载入示例）· **仓库**：<https://github.com/3054718337/food-health-app>
+
 ![桌面端演示](docs/screenshots/01-desktop-full.png)
 
 ## 快速开始
@@ -89,11 +91,14 @@ node --test "tests/**/*.test.mjs"     # 或 npm test
 
 ## 部署
 
-纯静态站点，推到 GitHub 后开启 Pages 即可（Settings → Pages → Deploy from a branch → `main` / `root`）。
+已部署在 GitHub Pages：<https://3054718337.github.io/food-health-app/>（`main` / `root`，推送后自动构建）。
+
+Fork 或另建仓库后，同样在 Settings → Pages → Deploy from a branch 选择 `main` / `root` 即可；纯静态站点无需构建步骤。
 
 ```bash
-git remote add origin https://github.com/<你的用户名>/food-health-app.git
-git push -u origin main
+git clone https://github.com/3054718337/food-health-app.git
+cd food-health-app
+python -m http.server 5173
 ```
 
 ## 数据与边界
