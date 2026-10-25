@@ -1,0 +1,12 @@
+{
+  "name": "shike-food-health",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "食刻 · 今日饮食健康评估：记录当天菜品，按膳食指南给出六维评分与明日改进建议",
+  "scripts": {
+    "dev": "python -m http.server 5173",
+    "test": "node --test \"tests/**/*.test.mjs\""
+  },
+  "keywords": ["nutrition", "health", "diet", "vanilla-js"]
+}
