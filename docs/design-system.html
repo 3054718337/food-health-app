@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>食刻 · 设计系统与设计稿</title>
+<style>
+  :root {
+    --cream: #f6f1e6;
+    --paper: #fffdf8;
+    --ink: #1c2a24;
+    --ink-soft: #3d4d45;
+    --muted: #6e7c74;
+    --line: #e6ddca;
+    --line-strong: #d7cbb3;
+    --green: #187a52;
+    --green-deep: #0f5132;
+    --green-soft: #e7f1ea;
+    --amber: #c98519;
+    --amber-soft: #fbf1dc;
+    --tomato: #c14f45;
+    --tomato-soft: #fbe9e5;
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+    --font: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+    --font-num: "SF Pro Display", "DIN Alternate", "Segoe UI", var(--font);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--ink);
+    background: radial-gradient(1000px 500px at 90% -5%, #fdf6e6, rgba(253,246,230,0) 60%), var(--cream);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, p, ul { margin: 0; }
+  ul { padding: 0; list-style: none; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 48px 28px 80px; }
+  header.hero { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 40px; }
+  .mark {
+    width: 56px; height: 56px; border-radius: 18px; background: var(--green-deep);
+    display: grid; place-items: center; color: #bfe3cd; flex: none;
+    box-shadow: 0 12px 26px rgba(15,81,50,.2);
+  }
+  .hero h1 { font-size: 30px; letter-spacing: .01em; line-height: 1.25; }
+  .hero h1 small { font-family: var(--font-num); font-size: 13px; letter-spacing: .18em; color: var(--muted); margin-left: 8px; }
+  .hero p { color: var(--muted); font-size: 14px; margin-top: 6px; }
+  .meta-row { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .pill {
+    font-size: 11.5px; padding: 4px 11px; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--paper); color: var(--muted);
+  }
+  section { margin-top: 46px; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  .sec-head h2 { font-size: 20px; }
+  .sec-head span { font-size: 12px; color: var(--muted); font-family: var(--font-num); letter-spacing: .08em; text-transform: uppercase; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 14px 34px rgba(70,52,22,.06); }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 14px; }
+  .principle h3 { font-size: 15px; margin-bottom: 6px; }
+  .principle p { font-size: 12.5px; color: var(--muted); line-height: 1.75; }
+  .principle .num {
+    font-family: var(--font-num); font-size: 11px; font-weight: 700; color: var(--green);
+    background: var(--green-soft); width: 24px; height: 24px; border-radius: 8px;
+    display: grid; place-items: center; margin-bottom: 10px;
+  }
+  .swatches { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; }
+  .swatch { border: 1px solid var(--line); border-radius: var(--radius-md); overflow: hidden; background: var(--paper); }
+  .swatch .chip-color { height: 66px; }
+  .swatch .chip-meta { padding: 10px 12px 12px; }
+  .swatch .chip-name { font-size: 12px; font-weight: 600; }
+  .swatch .chip-hex { font-family: var(--font-num); font-size: 11px; color: var(--muted); }
+  .swatch .chip-use { font-size: 10.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+  .type-row { display: flex; align-items: baseline; justify-content: space-between; gap: 18px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+  .type-row:last-child { border-bottom: none; }
+  .type-row .sample { font-weight: 700; }
+  .type-row .spec { font-family: var(--font-num); font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .t-display { font-size: 34px; letter-spacing: -.02em; }
+  .t-h1 { font-size: 23px; }
+  .t-h2 { font-size: 19px; }
+  .t-h3 { font-size: 15px; }
+  .t-body { font-size: 13.5px; font-weight: 400; }
+  .t-caption { font-size: 11.5px; font-weight: 400; color: var(--muted); }
+  .space-row { display: flex; align-items: center; gap: 12px; padding: 7px 0; }
+  .space-row .bar { height: 14px; background: var(--green-soft); border: 1px solid #cfe2d6; border-radius: 3px; }
+  .space-row code { font-family: var(--font-num); font-size: 11px; color: var(--muted); width: 52px; }
+  .space-row span { font-size: 11.5px; color: var(--muted); }
+  .comp-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; }
+  .comp { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 20px; }
+  .comp h4 { font-size: 13px; margin-bottom: 4px; }
+  .comp .desc { font-size: 11.5px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+  .demo-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .btn-primary {
+    background: var(--green-deep); color: #f6fbf7; border: 1px solid var(--green-deep);
+    padding: 11px 20px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer;
+  }
+  .btn-ghost {
+    background: transparent; color: var(--ink-soft); border: 1px solid var(--line-strong);
+    padding: 7px 14px; border-radius: 999px; font-size: 13px; font-family: inherit; cursor: pointer;
+  }
+  .btn-disabled {
+    background: #cfd7cf; border: 1px solid #cfd7cf; color: #fff;
+    padding: 11px 20px; border-radius: var(--radius-md); font-size: 14px; font-weight: 600; cursor: not-allowed;
+  }
+  .chip-demo {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius-sm);
+    padding: 9px 11px; font-size: 13px; min-width: 190px;
+  }
+  .chip-demo .kcal { font-family: var(--font-num); font-size: 11px; color: var(--muted); }
+  .chip-demo.added { background: var(--green-soft); border-color: #cfe2d6; }
+  .chip-demo.added .kcal { color: var(--green); }
+  .row-demo {
+    display: flex; align-items: center; gap: 10px; background: #fff;
+    border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 12px;
+  }
+  .row-demo .main { flex: 1; min-width: 0; }
+  .row-demo .name { font-size: 13.5px; font-weight: 600; display: block; }
+  .row-demo .meta { font-size: 11.5px; color: var(--muted); font-family: var(--font-num); }
+  .stepper { display: flex; align-items: center; gap: 2px; background: #f7f1e4; border-radius: 999px; padding: 2px; }
+  .stepper button { width: 24px; height: 24px; border: none; background: transparent; border-radius: 999px; cursor: pointer; color: var(--ink-soft); font-size: 15px; }
+  .stepper span { font-family: var(--font-num); font-size: 12px; min-width: 34px; text-align: center; }
+  .ring-demo { display: flex; align-items: center; gap: 18px; }
+  .ring-wrap { position: relative; width: 108px; height: 108px; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-bg { fill: none; stroke: #eee6d5; stroke-width: 10; }
+  .ring-value { fill: none; stroke: var(--green); stroke-width: 10; stroke-linecap: round; }
+  .ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .ring-score { font-family: var(--font-num); font-size: 28px; font-weight: 700; line-height: 1; }
+  .ring-unit { font-size: 10px; color: var(--muted); margin-top: 2px; letter-spacing: .06em; }
+  .dim-demo { display: grid; grid-template-columns: 74px 1fr 34px; gap: 10px; align-items: center; font-size: 12px; margin-bottom: 9px; }
+  .track { height: 8px; background: #f0e9da; border-radius: 999px; overflow: hidden; }
+  .track i { display: block; height: 100%; border-radius: 999px; }
+  .metric-demo { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 10px 12px; background: #fff; }
+  .metric-demo .label { font-size: 11px; color: var(--muted); }
+  .metric-demo .value { font-family: var(--font-num); font-size: 16px; font-weight: 600; }
+  .metric-demo .value small { font-size: 10.5px; color: var(--muted); font-weight: 400; margin-left: 2px; }
+  .metric-demo .track { height: 4px; margin-top: 7px; }
+  .tag { font-size: 11.5px; padding: 4px 10px; border-radius: 999px; border: 1px solid transparent; }
+  .tag.warn { background: var(--amber-soft); color: #8f5c0c; border-color: #efdfbe; }
+  .tag.bad { background: var(--tomato-soft); color: var(--tomato); border-color: #f0ccc6; }
+  .tag.good { background: var(--green-soft); color: var(--green-deep); border-color: #cfe2d6; }
+  .suggestion-demo { display: flex; gap: 12px; border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; padding: 12px 14px; }
+  .suggestion-demo .idx { font-family: var(--font-num); font-size: 11px; font-weight: 700; color: var(--green); background: var(--green-soft); width: 22px; height: 22px; border-radius: 8px; display: grid; place-items: center; flex: none; }
+  .suggestion-demo h5 { font-size: 13px; margin: 0 0 2px; }
+  .suggestion-demo p { font-size: 12.5px; color: var(--muted); line-height: 1.7; }
+  .meal-demo { border: 1px solid var(--line); border-radius: var(--radius-md); background: #fff; padding: 12px 13px; }
+  .meal-demo h5 { font-size: 12.5px; display: flex; align-items: center; gap: 6px; margin: 0 0 7px; }
+  .dot { width: 7px; height: 7px; border-radius: 999px; display: inline-block; }
+  .meal-demo li { font-size: 12px; color: var(--ink-soft); padding-left: 12px; position: relative; line-height: 1.7; }
+  .meal-demo li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 4px; height: 4px; border-radius: 999px; background: var(--line-strong); }
+  table.rules { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.rules th, table.rules td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  table.rules th { color: var(--muted); font-weight: 500; font-size: 11.5px; }
+  table.rules td:first-child { font-weight: 600; white-space: nowrap; }
+  .footnote { margin-top: 42px; font-size: 11.5px; color: var(--muted); border-top: 1px dashed var(--line-strong); padding-top: 16px; line-height: 1.8; }
+  a { color: var(--green); }
+  @media (max-width: 820px) {
+    .swatches { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid-3, .comp-grid { grid-template-columns: 1fr; }
+    .wrap { padding: 32px 18px 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="32" height="32" fill="none">
+        <path d="M16 27c0-7 4.5-12 11-13-1 7.5-5 12-11 13Z" fill="currentColor" opacity=".9"/>
+        <path d="M16 27C9.5 26 5 21.5 4 14c6.5 1 11 6 12 13Z" fill="currentColor" opacity=".55"/>
+        <path d="M16 27V15" stroke="#0f5132" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <h1>食刻设计系统<small>SHIKE DESIGN KIT</small></h1>
+      <p>一个用于「今日饮食健康评估」的轻量设计规范：暖纸底色 + 深绿主色，数字用等宽字距，信息按「结论 → 依据 → 行动」排列。</p>
+      <div class="meta-row">
+        <span class="pill">版本 v1.0</span>
+        <span class="pill">Web · 响应式</span>
+        <span class="pill">无第三方 UI 库</span>
+        <span class="pill">对比度 ≥ 4.5:1</span>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head"><h2>设计原则</h2><span>Principles</span></div>
+    <div class="grid-3">
+      <div class="card principle">
+        <div class="num">1</div>
+        <h3>先给结论</h3>
+        <p>分数、等级、一句话判断放在最上方。用户不需要滚动就能知道「今天吃得怎么样」。</p>
+      </div>
+      <div class="card principle">
+        <div class="num">2</div>
+        <h3>依据可核对</h3>
+        <p>每个分数都对应具体克数与参考量，六维条和指标卡让「为什么是这个分」有据可查。</p>
+      </div>
+      <div class="card principle">
+        <div class="num">3</div>
+        <h3>行动要具体</h3>
+        <p>建议不写「多吃蔬菜」，而写「还差 120 g，约等于一份蒜蓉西兰花」，并直接给出明日三餐。</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>色彩</h2><span>Color tokens</span></div>
+    <div class="swatches">
+      <div class="swatch"><div class="chip-color" style="background:#0f5132"></div><div class="chip-meta"><div class="chip-name">深绿 / 主色</div><div class="chip-hex">#0F5132</div><div class="chip-use">主按钮、品牌标识、标题强调</div></div></div>
+      <div class="swatch"><div class="chip-color" style="background:#187a52"></div><div class="chip-meta"><div class="chip-name">绿 / 达标</div><div class="chip-hex">#187A52</div><div class="chip-use">得分条、选中态、正向标签</div></div></div>
+      <div class="swatch"><div class="chip-color" style="background:#e7f1ea"></div><div class="chip-meta"><div class="chip-name">浅绿 / 底色</div><div class="chip-hex">#E7F1EA</div><div class="chip-use">标签底、序号底、选中背景</div></div></div>
+      <div class="swatch"><div class="chip-color" style="background:#c98519"></div><div class="chip-meta"><div class="chip-name">琥珀 / 警示</div><div class="chip-hex">#C98519</div><div class="chip-use">偏低、偏高但未超标</div></div></div>
+      <div class="swatch"><div class="chip-color" style="background:#c14f45"></div><div class="chip-meta"><div class="chip-name">砖红 / 问题</div><div class="chip-hex">#C14F45</div><div class="chip-use">明显超标、低分维度</div></div></div>
+      <div class="swatch"><div class="chip-color" style="background:#f6f1e6"></div><div class="chip-meta"><div class="chip-name">米白 / 页面底</div><div class="chip-hex">#F6F1E6</div><div class="chip-use">页面背景，减弱屏幕白光</div></div></div>
+      <div class="swatch"><div class="chip-color" style="background:#fffdf8;border-bottom:1px solid #e6ddca"></div><div class="chip-meta"><div class="chip-name">卡片纸白</div><div class="chip-hex">#FFFDF8</div><div class="chip-use">卡片、弹窗、输入框</div></div></div>
+      <div class="swatch"><div class="chip-color" style="background:#1c2a24"></div><div class="chip-meta"><div class="chip-name">墨色 / 正文</div><div class="chip-hex">#1C2A24</div><div class="chip-use">标题与正文，不用纯黑</div></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>字体与排版</h2><span>Typography</span></div>
+    <div class="card">
+      <div class="type-row"><span class="sample t-display">76.5</span><span class="spec">Display · 34px · 700 · 字距 -2%</span></div>
+      <div class="type-row"><span class="sample t-h1">今天吃了什么</span><span class="spec">H1 · 23px · 700</span></div>
+      <div class="type-row"><span class="sample t-h2">整体不错，只在一两个维度上有缺口</span><span class="spec">H2 · 19px · 700</span></div>
+      <div class="type-row"><span class="sample t-h3">把盐和酱油降下来</span><span class="spec">H3 · 15px · 700</span></div>
+      <div class="type-row"><span class="sample t-body">钠约 3669 mg，已经超过 2000 mg 的参考上限。明天少点一份红烧类菜品，蘸料减半。</span><span class="spec">Body · 13.5px · 400</span></div>
+      <div class="type-row"><span class="sample t-caption">营养数据为常见做法的估算值，仅供参考</span><span class="spec">Caption · 11.5px · 400</span></div>
+    </div>
+    <p class="footnote" style="margin-top:14px;border:none;padding-top:0">数字统一使用 <code>font-variant-numeric: tabular-nums</code> 的等宽字体，保证分数与克数在列表中纵向对齐；中文正文行高 1.7，标题 1.3。</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>间距与圆角</h2><span>Spacing · Radius</span></div>
+    <div class="comp-grid">
+      <div class="comp">
+        <h4>间距刻度</h4>
+        <p class="desc">以 4px 为基准，常用 8 / 12 / 16 / 24 / 32。</p>
+        <div class="space-row"><code>4</code><div class="bar" style="width:4px"></div><span>图标内边距、微调</span></div>
+        <div class="space-row"><code>8</code><div class="bar" style="width:8px"></div><span>标签间距、列表项间隙</span></div>
+        <div class="space-row"><code>12</code><div class="bar" style="width:12px"></div><span>卡片内元素间距</span></div>
+        <div class="space-row"><code>16</code><div class="bar" style="width:16px"></div><span>卡片内边距（窄屏）</span></div>
+        <div class="space-row"><code>24</code><div class="bar" style="width:24px"></div><span>卡片内边距（桌面）</span></div>
+        <div class="space-row"><code>32</code><div class="bar" style="width:32px"></div><span>页面留白</span></div>
+      </div>
+      <div class="comp">
+        <h4>圆角</h4>
+        <p class="desc">圆角随容器层级递增，外松内紧。</p>
+        <div class="demo-row" style="gap:16px">
+          <div style="text-align:center"><div style="width:78px;height:78px;background:var(--green-soft);border:1px solid #cfe2d6;border-radius:10px"></div><div style="font-size:11px;color:var(--muted);margin-top:6px">10 · 小控件</div></div>
+          <div style="text-align:center"><div style="width:78px;height:78px;background:var(--green-soft);border:1px solid #cfe2d6;border-radius:14px"></div><div style="font-size:11px;color:var(--muted);margin-top:6px">14 · 卡片内块</div></div>
+          <div style="text-align:center"><div style="width:78px;height:78px;background:var(--green-soft);border:1px solid #cfe2d6;border-radius:22px"></div><div style="font-size:11px;color:var(--muted);margin-top:6px">22 · 大卡片</div></div>
+          <div style="text-align:center"><div style="width:78px;height:78px;background:var(--green-soft);border:1px solid #cfe2d6;border-radius:999px"></div><div style="font-size:11px;color:var(--muted);margin-top:6px">999 · 胶囊</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>组件</h2><span>Components</span></div>
+    <div class="comp-grid">
+
+      <div class="comp">
+        <h4>按钮</h4>
+        <p class="desc">主按钮每个页面只有一个：生成评估。次要动作用胶囊描边，破坏性操作悬停变砖红。</p>
+        <div class="demo-row">
+          <button class="btn-primary">生成健康评估</button>
+          <button class="btn-ghost">载入示例</button>
+          <button class="btn-ghost">清空</button>
+          <button class="btn-disabled" disabled>生成健康评估</button>
+        </div>
+      </div>
+
+      <div class="comp">
+        <h4>菜品筹码</h4>
+        <p class="desc">默认白底；已加入时变为浅绿并保留热量数字，点击可再加一份。</p>
+        <div class="demo-row">
+          <div class="chip-demo"><span>白米饭</span><span class="kcal">232 kcal</span></div>
+          <div class="chip-demo added"><span>清炒时蔬</span><span class="kcal">120 kcal</span></div>
+        </div>
+      </div>
+
+      <div class="comp">
+        <h4>已选菜品行</h4>
+        <p class="desc">左侧名称与克数，右侧 0.5 步进的份量器，末尾为移除按钮。</p>
+        <div class="row-demo">
+          <div class="main"><span class="name">宫保鸡丁</span><span class="meta">荤菜 · 180 g · 356 kcal</span></div>
+          <div class="stepper"><button>−</button><span>1 份</span><button>＋</button></div>
+          <button style="border:none;background:transparent;color:var(--muted);font-size:17px;cursor:pointer">×</button>
+        </div>
+      </div>
+
+      <div class="comp">
+        <h4>分数环</h4>
+        <p class="desc">总分优先展示，圆环颜色随等级变化；数字等宽，一位小数。</p>
+        <div class="ring-demo">
+          <div class="ring-wrap">
+            <svg width="108" height="108" viewBox="0 0 108 108" aria-hidden="true">
+              <circle class="ring-bg" cx="54" cy="54" r="46"></circle>
+              <circle class="ring-value" cx="54" cy="54" r="46" stroke-dasharray="289" stroke-dashoffset="69"></circle>
+            </svg>
+            <div class="ring-center"><span class="ring-score">76.1</span><span class="ring-unit">综合得分</span></div>
+          </div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8">
+            <div><span class="tag good">A 优秀</span> ≥ 85</div>
+            <div style="margin-top:6px"><span class="tag good" style="background:#e9f2ef;color:#1d6b58;border-color:#cfe2d6">B 良好</span> 70–84</div>
+            <div style="margin-top:6px"><span class="tag warn">C 需改进</span> 55–69</div>
+            <div style="margin-top:6px"><span class="tag bad">D 偏差较大</span> &lt; 55</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp">
+        <h4>六维条</h4>
+        <p class="desc">满分 100，颜色固定：≥ 80 绿、55–79 琥珀、&lt; 55 砖红。</p>
+        <div class="dim-demo"><span>蔬菜水果</span><div class="track"><i style="width:92%;background:#187a52"></i></div><span>92</span></div>
+        <div class="dim-demo"><span>蛋白质质量</span><div class="track"><i style="width:100%;background:#187a52"></i></div><span>100</span></div>
+        <div class="dim-demo"><span>主食与全谷</span><div class="track"><i style="width:44%;background:#c14f45"></i></div><span>44</span></div>
+        <div class="dim-demo"><span>油盐糖控制</span><div class="track"><i style="width:45%;background:#c14f45"></i></div><span>45</span></div>
+        <div class="dim-demo"><span>能量平衡</span><div class="track"><i style="width:70%;background:#187a52"></i></div><span>70</span></div>
+      </div>
+
+      <div class="comp">
+        <h4>指标卡</h4>
+        <p class="desc">数值 + 单位 + 迷你进度条；上限类指标（钠、糖、脂肪）超出时变红。</p>
+        <div class="demo-row" style="gap:10px">
+          <div class="metric-demo" style="flex:1">
+            <div class="label">蛋白质</div>
+            <div class="value">78.6<small>g</small></div>
+            <div class="track"><i style="width:100%;background:#187a52"></i></div>
+          </div>
+          <div class="metric-demo" style="flex:1">
+            <div class="label">钠</div>
+            <div class="value">3669<small>mg</small></div>
+            <div class="track"><i style="width:100%;background:#c14f45"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp">
+        <h4>预警标签</h4>
+        <p class="desc">只列问题，不做评判式措辞；同一屏不超过 6 枚。</p>
+        <div class="demo-row">
+          <span class="tag bad">钠 3669 mg 偏高</span>
+          <span class="tag warn">全谷物不足</span>
+          <span class="tag warn">添加糖 37 g</span>
+          <span class="tag good">蛋白质达标</span>
+        </div>
+      </div>
+
+      <div class="comp">
+        <h4>改进建议卡</h4>
+        <p class="desc">标题是动作，正文给数字与替代方案；按缺口大小排序。</p>
+        <div class="suggestion-demo">
+          <span class="idx">1</span>
+          <div>
+            <h5>把盐和酱油降下来</h5>
+            <p>钠约 3669 mg，已超过 2000 mg 的参考上限。明天少点一份红烧类菜品，蘸料减半，用醋、柠檬和香辛料提味。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="comp">
+        <h4>餐次卡</h4>
+        <p class="desc">四餐用色点区分，内容精确到克数，允许同类替换。</p>
+        <div class="meal-demo">
+          <h5><span class="dot" style="background:#187a52"></span>午餐</h5>
+          <ul>
+            <li>二米饭 1 碗（白米 + 糙米，约 150 g）</li>
+            <li>清蒸鲈鱼 150 g 或白灼虾 120 g</li>
+            <li>清炒时蔬 250 g</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>评分呈现规则</h2><span>Scoring display</span></div>
+    <div class="card">
+      <table class="rules">
+        <thead><tr><th>维度</th><th>权重</th><th>判定依据</th><th>呈现</th></tr></thead>
+        <tbody>
+          <tr><td>蔬菜水果</td><td>25</td><td>蔬菜 ≥ 300 g、水果 ≥ 250 g</td><td>条形 + 克数对照</td></tr>
+          <tr><td>蛋白质质量</td><td>20</td><td>总量 ≥ 65 g，来源 ≥ 4 类</td><td>条形 + 来源数</td></tr>
+          <tr><td>主食与全谷</td><td>20</td><td>碳水 250 g，全谷物 ≥ 50 g</td><td>条形 + 粗细比</td></tr>
+          <tr><td>油盐糖控制</td><td>20</td><td>脂肪 ≤ 60 g、钠 ≤ 2000 mg、添加糖 ≤ 25 g</td><td>三项加权</td></tr>
+          <tr><td>能量平衡</td><td>10</td><td>2000 kcal ±10% 为满分</td><td>区间对照</td></tr>
+          <tr><td>饮食多样性</td><td>5</td><td>食物类别 ≥ 5，菜品 ≥ 8 份</td><td>计数</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.8">
+        综合分 = Σ（维度得分 × 权重）。单餐记录时，所有参考量按 0.4 折算，避免用一天的标准评判一顿饭。
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>动效与可访问性</h2><span>Motion · A11y</span></div>
+    <div class="grid-3">
+      <div class="card principle"><h3>动效克制</h3><p>仅两处：报告淡入上移 300ms，分数环与条形 700–800ms 缓动填充。尊重 <code>prefers-reduced-motion</code>。</p></div>
+      <div class="card principle"><h3>键盘可达</h3><p>所有可交互元素保留 2px 绿色焦点环；份量器有 aria-label；弹窗使用原生 dialog 并自动聚焦。</p></div>
+      <div class="card principle"><h3>对比度</h3><p>正文 #1C2A24 对 #FFFDF8 约 13:1；辅助文字 #6E7C74 约 4.6:1；颜色之外同时用文字说明状态。</p></div>
+    </div>
+  </section>
+
+  <p class="footnote">
+    本设计稿与 <a href="../index.html">实际页面</a>、<a href="prototype.svg">低保真原型</a>、<a href="flowchart.svg">流程图</a> 配套使用。字体使用系统中文黑体栈，不依赖外部字体文件；图标以内联 SVG 绘制。
+  </p>
+</div>
+</body>
+</html>
